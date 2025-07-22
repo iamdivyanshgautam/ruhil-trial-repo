@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../api";
 
+
 function AuthPage({ onLogin }){
     const [userExist, setUserExist] = useState(true);
     const [password, setPassword] = useState("");
@@ -19,30 +20,44 @@ function AuthPage({ onLogin }){
 
     };
 
-    return(
-        <div className="auth-container">
-          <button onClick={()=> setUserExist(!userExist)} className="toggle">
-            {userExist? "dont have an account, sign up here" : "already have a account, sign in here"}
-          </button>  
-          <div className={`form-box ${userExist? "login": "register"}`}>
-            <h2>{userExist? "login" : "register"}</h2>
-             <form onSubmit={handleSubmit}>
-                <input placeholder="username" 
-                       value={username} 
-                       onChange={(e)=> setUsername(e.target.value)}
-                       required
-                />
-                <input placeholder="password"
-                       type="password"
-                       value={password}
-                       onChange={(e)=> setPassword(e.target.value)}
-                       required
-                />
-                <button type="submit">{userExist? "login": "signup"}</button>
-             </form>
-          </div>
+    return (
+      <div className="auth-container">
+        <div className="auth-toggle">
+          <button
+            onClick={() => setUserExist(!userExist)}
+            className="toggle-btn"
+          >
+            {userExist
+              ? "Don't have an account? Sign up here"
+              : "Already have an account? Sign in here"}
+          </button>
         </div>
-    )
+
+        <div className={`form-box ${userExist ? "login" : "register"}`}>
+          <h2 className="form-title">{userExist ? "Login" : "Register"}</h2>
+          <form onSubmit={handleSubmit} className="auth-form">
+            <input
+              className="auth-input"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <input
+              className="auth-input"
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit" className="submit-btn">
+              {userExist ? "Login" : "Sign Up"}
+            </button>
+          </form>
+        </div>
+      </div>
+    );
 }
 
 export default AuthPage;
