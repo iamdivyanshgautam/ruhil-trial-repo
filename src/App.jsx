@@ -15,7 +15,7 @@ function App() {
  const [content, setContent] = useState("");
  const [showForm, setShowForm] = useState(false);
  const [searchQuery, SetSearchQuery] = useState("");
- const [counter, setCounter] = useState(3);
+ const [counter, setCounter] = useState(10);
  const [showAuth, setShowAuth] = useState(false);
 
  useEffect(()=> {
