@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import NoteCard from "./components/noteCard";
 import API from "./api";
 import Auth from "./pages/auth"
+import './App.css';
 
 import './components/noteCard.css';
 function App() {
@@ -117,12 +118,17 @@ function App() {
 
 
  if(!isLoggedIn && !showAuth){
-  return(
+  return (
     <>
-    <h2>You are not loggedIn</h2>
-    <p>you will be redirected to the login page in {counter} second{counter !== 1 ? "s":""}...</p>
+      <div className="not-logged-in">
+        <h2 className="not-logged-in__title">You are not logged in</h2>
+        <p className="not-logged-in__message">
+          You will be redirected to the login page in {counter} second
+          {counter !== 1 ? "s" : ""}...
+        </p>
+      </div>
     </>
-  )
+  );
  }
 
  if(!isLoggedIn && showAuth){
@@ -130,46 +136,68 @@ function App() {
  }
 
 
- return(
-    <>
-  <div className="main">
+ return (
+   <>
+     <div className="app-container">
+       <header className="header">
+         <h1>Divyansh Notes App</h1>
+         <button className="logout-btn" onClick={handleLogout}>
+           Logout
+         </button>
+       </header>
 
-   <div className='logout'>
-    <button onClick={handleLogout}>Logout</button>
-   </div>
+       <section className="toolbar">
+         <button
+           className={`add-note-btn ${showForm ? "active" : ""}`}
+           onClick={() => setShowForm(!showForm)}
+           title="Add new note"
+         >
+           <FontAwesomeIcon icon={faPlus} />
+         </button>
 
-   <div className="mainChild1">
-   <button className='addBtn' onClick={() => setShowForm(!showForm)}>
-   <FontAwesomeIcon icon={faPlus} style={{color: "#ffffff",}} /></button>
-    {showForm ? 
-    <form onSubmit={handleAddNote}>
-     <input type="text" 
-      name="title" 
-      placeholder="Title" 
-     />
-     <input type="text" 
-      name="text" 
-      placeholder="text" 
-     />
-     <button type="submit">Add Note</button>
-    </form>: <p>"click on the + to add a new note"</p>} 
-   </div>
-   <div className="mainChild2">
-    <input className="searchBar" type="text" placeholder="Search" 
-    value={searchQuery} 
-    onChange={(e)=> SetSearchQuery(e.target.value)}/>  
-    
-    <div className="divyansh">
-    <h1 className="">divyansh Notes App</h1>
-      </div>
+         <input
+           className="search-input"
+           type="text"
+           placeholder="Search notes..."
+           value={searchQuery}
+           onChange={(e) => SetSearchQuery(e.target.value)}
+         />
+       </section>
 
-  
-   <NoteCard notes={filteredNotes} DeleteCard={handleDelete} updateNote={handleUpdate}/>
-   </div> 
-    </div>
-    
+       <section className="form-section">
+         {showForm ? (
+           <form className="note-form" onSubmit={handleAddNote}>
+             <input
+               type="text"
+               name="title"
+               placeholder="Note title"
+               required
+             />
+             <input
+               type="text"
+               name="text"
+               placeholder="Note content"
+               required
+             />
+             <button type="submit" className="submit-btn">
+               Add Note
+             </button>
+           </form>
+         ) : (
+           <p className="form-hint">Click the + button to add a new note</p>
+         )}
+       </section>
+
+       <main className="notes-list">
+         <NoteCard
+           notes={filteredNotes}
+           DeleteCard={handleDelete}
+           updateNote={handleUpdate}
+         />
+       </main>
+     </div>
    </>
-  );
+ );
 
 
 
